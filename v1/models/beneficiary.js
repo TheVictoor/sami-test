@@ -1,4 +1,4 @@
-const beneficiatyWrapper = ({
+const beneficiaryWrapper = ({
   database,
   uuid,
 }) => {
@@ -166,4 +166,4 @@ const beneficiatyWrapper = ({
   };
 };
 
-module.exports = beneficiatyWrapper;
+module.exports = beneficiaryWrapper;
