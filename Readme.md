@@ -6,6 +6,7 @@
   npm start
 ```
 And go to /documentation to see a swagger doc
+and take a look at environment variables of the .env.example file
 
 ## What is the stack?
  - Node 12.18.0
@@ -23,3 +24,4 @@ And go to /documentation to see a swagger doc
  - PATCH: **v1/beneficiary**
  - POST: **v1/beneficiary**
  - DELETE: **v1/beneficiary**
+ 
