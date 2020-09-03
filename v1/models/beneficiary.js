@@ -1,20 +1,30 @@
 const beneficiatyWrapper = ({
-  config,
+  database,
+  uuid,
 }) => {
-  const get = ({
+  const get = async ({
     payload,
-    headers,
     onSuccess,
     onError,
   }) => {
     try {
+      const databaseInstance = await database.getDb('sami');
+
+      let statusCode = 200;
+      const filter = {};
+
+      if (payload.id) filter.id = payload.id;
+      const beneficiary = await databaseInstance
+        .collection('beneficiary')
+        .find(filter)
+        .toArray();
+
+      if (!beneficiary.length) statusCode = 404;
+
       return onSuccess({
-        statusCode: 200,
+        statusCode,
         data: {
-          ...headers,
-          name: config.app.name,
-          port: config.app.port,
-          payload,
+          beneficiary,
         },
       });
     } catch (error) {
@@ -26,20 +36,24 @@ const beneficiatyWrapper = ({
     }
   };
 
-  const post = ({
+  const post = async ({
     payload,
-    headers,
     onSuccess,
     onError,
   }) => {
     try {
+      const databaseInstance = await database.getDb('sami');
+      const id = uuid();
+
+      await databaseInstance.collection('beneficiary').insertOne({
+        ...payload,
+        id,
+      });
+
       return onSuccess({
-        statusCode: 200,
+        statusCode: 201,
         data: {
-          ...headers,
-          name: config.app.name,
-          port: config.app.port,
-          payload,
+          id,
         },
       });
     } catch (error) {
@@ -51,20 +65,24 @@ const beneficiatyWrapper = ({
     }
   };
 
-  const put = ({
+  const put = async ({
     payload,
-    headers,
     onSuccess,
     onError,
   }) => {
     try {
+      const databaseInstance = await database.getDb('sami');
+      const { id, ...data } = payload;
+      let statusCode = 200;
+
+      const updated = await databaseInstance.collection('beneficiary').findOneAndReplace({ id }, { ...data, id });
+
+      if (!updated.value) statusCode = 404;
+
       return onSuccess({
-        statusCode: 200,
+        statusCode,
         data: {
-          ...headers,
-          name: config.app.name,
-          port: config.app.port,
-          payload,
+          message: statusCode === 200 ? 'Object replaced' : 'Object not found',
         },
       });
     } catch (error) {
@@ -76,20 +94,28 @@ const beneficiatyWrapper = ({
     }
   };
 
-  const patch = ({
+  const patch = async ({
     payload,
-    headers,
     onSuccess,
     onError,
   }) => {
     try {
+      const databaseInstance = await database.getDb('sami');
+      const { id, ...data } = payload;
+      let statusCode = 200;
+
+      const updated = await databaseInstance
+        .collection('beneficiary')
+        .findOneAndUpdate({ id }, {
+          $set: { ...data },
+        });
+
+      if (!updated.value) statusCode = 404;
+
       return onSuccess({
-        statusCode: 200,
+        statusCode,
         data: {
-          ...headers,
-          name: config.app.name,
-          port: config.app.port,
-          payload,
+          message: statusCode === 200 ? 'Object replaced' : 'Object not found',
         },
       });
     } catch (error) {
@@ -101,20 +127,25 @@ const beneficiatyWrapper = ({
     }
   };
 
-  const del = ({
+  const del = async ({
     payload,
-    headers,
     onSuccess,
     onError,
   }) => {
     try {
+      const databaseInstance = await database.getDb('sami');
+      let statusCode = 200;
+
+      const beneficiary = await databaseInstance
+        .collection('beneficiary')
+        .findOneAndDelete({ id: payload.id });
+
+      if (beneficiary.ok !== 1) statusCode = 404;
+
       return onSuccess({
-        statusCode: 200,
+        statusCode,
         data: {
-          ...headers,
-          name: config.app.name,
-          port: config.app.port,
-          payload,
+          message: statusCode === 200 ? `deleted ${payload.id}` : 'not deleted',
         },
       });
     } catch (error) {

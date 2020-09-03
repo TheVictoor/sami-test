@@ -12,17 +12,18 @@ const beneficiaryWrapper = (models) => {
       payload,
       headers,
       onSuccess: (responseData) => {
-        res.send(responseData);
+        res.send(responseData.statusCode, responseData);
         res.end();
       },
       onError: (responseError) => {
-        res.status(responseError.statusCode).send(responseError);
+        res.send(responseError.statusCode || 500, responseError);
       },
     });
   };
 
   const put = (req, res) => {
     const payload = {
+      ...req.body,
       ...req.params,
     };
 
@@ -34,17 +35,18 @@ const beneficiaryWrapper = (models) => {
       payload,
       headers,
       onSuccess: (responseData) => {
-        res.send(responseData);
+        res.send(responseData.statusCode, responseData);
         res.end();
       },
       onError: (responseError) => {
-        res.status(responseError.statusCode).send(responseError);
+        res.send(responseError.statusCode || 500, responseError);
       },
     });
   };
 
   const patch = (req, res) => {
     const payload = {
+      ...req.body,
       ...req.params,
     };
 
@@ -56,18 +58,18 @@ const beneficiaryWrapper = (models) => {
       payload,
       headers,
       onSuccess: (responseData) => {
-        res.send(responseData);
+        res.send(responseData.statusCode, responseData);
         res.end();
       },
       onError: (responseError) => {
-        res.status(responseError.statusCode).send(responseError);
+        res.send(responseError.statusCode || 500, responseError);
       },
     });
   };
 
   const post = (req, res) => {
     const payload = {
-      ...req.params,
+      ...req.body,
     };
 
     const headers = {
@@ -78,11 +80,11 @@ const beneficiaryWrapper = (models) => {
       payload,
       headers,
       onSuccess: (responseData) => {
-        res.send(responseData);
+        res.send(responseData.statusCode, responseData);
         res.end();
       },
       onError: (responseError) => {
-        res.status(responseError.statusCode).send(responseError);
+        res.send(responseError.statusCode || 500, responseError);
       },
     });
   };
@@ -100,11 +102,11 @@ const beneficiaryWrapper = (models) => {
       payload,
       headers,
       onSuccess: (responseData) => {
-        res.send(responseData);
+        res.send(responseData.statusCode, responseData);
         res.end();
       },
       onError: (responseError) => {
-        res.status(responseError.statusCode).send(responseError);
+        res.send(responseError.statusCode || 500, responseError);
       },
     });
   };

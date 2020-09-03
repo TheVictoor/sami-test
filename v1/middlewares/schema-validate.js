@@ -5,9 +5,9 @@ module.exports = (schema) => ({
     try {
       const queryIsValid = schema.validate(req.query);
       if (!queryIsValid.error) return next();
-      res.status(400).send(queryIsValid.error.details);
+      res.send(400, queryIsValid.error.details);
     } catch (error) {
-      res.status(500).send(error.message);
+      res.send(500, error.message);
       res.end();
     }
   },
@@ -15,9 +15,9 @@ module.exports = (schema) => ({
     try {
       const paramsIsValid = schema.validate(req.params);
       if (!paramsIsValid.error) return next();
-      res.status(400).send(paramsIsValid.error.details);
+      res.send(400, paramsIsValid.error.details);
     } catch (error) {
-      res.status(500).send(error.message);
+      res.send(500, error.message);
       res.end();
     }
   },
@@ -25,9 +25,9 @@ module.exports = (schema) => ({
     try {
       const bodyIsValid = schema.validate(req.body);
       if (!bodyIsValid.error) return next();
-      res.status(400).send(bodyIsValid.error.details);
+      res.send(400, bodyIsValid.error.details);
     } catch (error) {
-      res.status(500).send(error.message);
+      res.send(500, error.message);
       res.end();
     }
   },

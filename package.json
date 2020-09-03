@@ -15,9 +15,11 @@
     "dotenv": "^8.2.0",
     "jest": "^26.4.2",
     "joi": "^17.2.1",
+    "mongodb": "^3.6.1",
     "restify": "^8.5.1",
     "restify-errors": "^8.0.2",
-    "restify-swagger-jsdoc": "^3.2.4"
+    "restify-swagger-jsdoc": "^3.2.4",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
     "eslint": "^7.8.1",

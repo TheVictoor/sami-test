@@ -9,6 +9,11 @@ const config = require('./config');
 
 const server = restify.createServer();
 
+server.pre(restify.pre.sanitizePath());
+server.use(restify.plugins.bodyParser({ mapParams: false }));
+server.use(restify.plugins.queryParser({ mapParams: false }));
+server.use(restify.plugins.acceptParser(server.acceptable));
+
 restifySwaggerJsdoc.createSwaggerPage({
   ...swaggerPluginDefinition,
   server,
